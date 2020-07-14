@@ -14,12 +14,6 @@ class Header extends React.Component {
 
 
     render() {
-        if (this.state.isEnter) {
-            return (
-                <Redirect to={"/info/" + this.state.input} />
-            )
-        }
-
         return (
             <>
                 <div className="header">
