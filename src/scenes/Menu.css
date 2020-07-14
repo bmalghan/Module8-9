@@ -1,0 +1,52 @@
+.Menu {
+    background: white;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    display: grid;
+}
+
+.main-menu {
+    margin-top: 9.5vh;
+    padding: 0 10%;
+}
+
+.pic-right-content > h1{
+    color: #BB2335;
+}
+
+.pic-right{
+    display: flex;
+    flex-direction: row;
+}
+
+.pic-right-content {
+    width: 75%;
+}
+
+.pic-right-image {
+    width: 30%;
+}
+
+.pic-right-image > img{
+    width: 70%;
+    margin: 15%;
+}
+
+.pic-right-items{
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    margin-right: 2%;
+}
+
+.pic-left-image {
+    width: 30%;
+}
+
+.pic-left-image > img{
+    width: 70%;
+    margin: 20% 15% 15% 0%;
+}
