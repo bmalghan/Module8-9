@@ -44,6 +44,11 @@
 
 .header-button > :hover{
     background-color: azure;
+    color: black;
+}
+
+.order > :hover {
+    background-color: none !important;
 }
 
 

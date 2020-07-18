@@ -245,7 +245,6 @@ const drinks = [
         spice: 0,
         description: "Freshly-brewed each day from a blend of tea leaves."
         }
-
 ];
 
 export default Menu;

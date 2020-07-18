@@ -1,0 +1,15 @@
+.dialog-main > Paper {
+    min-width: 500px !important;
+    height: 60vh;
+}
+
+.gree {
+    background-color: green;
+}
+
+.MuiDialogContent-root > p{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

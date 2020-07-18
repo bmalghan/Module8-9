@@ -1,6 +1,7 @@
 import React from 'react';
-import { Redirect, Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 import logo from '../assets/logo.png';
+import { Order } from "../component";
 import "./header.css";
 
 
@@ -28,7 +29,7 @@ class Header extends React.Component {
                             <Link to="/menu"> Menu </Link>
                         </span>
                         <span className="header-button order">
-                            <a> Order </a>
+                            <Order> Order </Order>
                         </span>
                 </div>
             </div>
