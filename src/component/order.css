@@ -13,3 +13,31 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
+.MuiTypography-h6 {
+    font-size: 32px !important;
+}
+
+.row-one-modal{
+    width: 95%;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: row;
+}
+
+.row-one-modal-c {
+    width: 50%;
+    margin: auto 0;
+}
+
+.row-one-modal-c > :first-child{
+    font-size: 24px;
+}
+
+.inline {
+    margin: 5% auto;
+}
+
+.container {
+    
+}

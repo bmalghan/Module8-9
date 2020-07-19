@@ -6,21 +6,120 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import IconButton from '@material-ui/core/IconButton';
+import Checkbox from '@material-ui/core/Checkbox';
+import CloseIcon from '@material-ui/icons/Close';
 import { OrderItem } from "../component";
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import "./order.css";
 
 function Order() {
   const [open, setOpen] = React.useState(false);
 
+  const [veg, setVeg] = React.useState(false);
+  const [gf, setgf] = React.useState(false);
+
   const [page, setPage] = React.useState(1);
 
+  const [first, setFirst] = React.useState("");
+
+  const [firstE, setFirstE] = React.useState(false);
+
+  const [creditNum, setCreditNum] = React.useState("");
+
+  const [creditNumE, setCreditNumE] = React.useState(false);
+
+  const [exp, setExp] = React.useState("");
+
+  const [expE, setExpE] = React.useState(false);
+
+  const [pn, setPn] = React.useState("");
+
+  const [pnE, setPnE] = React.useState(false);
+
+  const [cvv, setCvv] = React.useState(" ");
+
+  const [cvvE, setCvvE] = React.useState(false);
+
+
+  const handleNameChange = (event) => {
+    const {value} = event.target;
+    const fE = first.length > 0;
+    setFirstE(!fE);
+    setFirst(value);
+  }
+
+  const handleCreditChange = (event) => {
+    const {value} = event.target;
+    setCreditNum(value);
+    var filter = /^\d{15}$/;
+    const cE = filter.test(creditNum);
+    setCreditNumE(!cE);
+  }
+
+  const handleCvvChange = (event) => {
+    const {value} = event.target;
+    setCvv(value);
+    
+    var filter2 = /^\d{2}$/;
+    const ccE = filter2.test(cvv);
+    setCvvE(!ccE);
+  }
+
+  const handlepnChange = (event) => {
+    const {value} = event.target;
+    setPn(value);
+    
+    var filter3 = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+    const pn1E = filter3.test(pn);
+    setPnE(!pn1E);
+  }
+
+  const handleExpChange = (event) => {
+    const {value} = event.target;
+    setExp(value);
+    
+  }
   const handleClickOpen = () => {
+    setPage(1);
     setOpen(true);
+    setVeg(false);
+    setgf(false);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    const fE = first.length > 0;
+    setFirstE(!fE);
+
+    var filter = /^\d{16}$/;
+    const cE = filter.test(creditNum);
+    setCreditNumE(!cE);
+
+    var filter2 = /^\d{2}$/;
+    const ccE = filter2.test(cvv);
+
+    var filter3 = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+    const pn1E = filter3.test(pn);
+    setPnE(!pn1E);
+
+    setCvvE(!ccE);
+
+    console.log(firstE);
+    console.log(creditNumE);
+
+    console.log(cvvE);
+    console.log(expE);
+    if (!(firstE || creditNumE || cvvE || expE || pnE)) {
+      setOpen(false);
+      setPage(1);
+    }
+
+  };
+
+  const handleCloseI = () => {
+      setOpen(false);
+      setPage(1);
   };
 
   const handleNext = () => {
@@ -36,6 +135,15 @@ function Order() {
     setPage(1);
   };
 
+  const handleVeg = () => {
+    setVeg(!veg);
+  };
+
+  const handleGf = () => {
+    setgf(!gf);
+  };
+
+  const subt = ["Appetizers", "Main Course", "Drinks and Dessert"]
 
 
   return (
@@ -43,47 +151,71 @@ function Order() {
       <Button onClick={handleOrderOpen} variant="contained" color="secondary" onClick={handleClickOpen}>
         Order
       </Button>
-      <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'md'} style={{ padding: "5%" }} className="dialog-main">
-        <DialogTitle id="form-dialog-title">{(page < 4) ? "Order" : "Payment"}</DialogTitle>
-        <DialogContent style={{ minWidth: "600px" }}>
+      <Dialog open={open} fullWidth={true} maxWidth={'md'} style={{ padding: "5%" }} className="dialog-main">
+        <DialogTitle style={{ fontSize: "32px" }} id="form-dialog-title">
+          {(page < 4) ? <img src="https://img.icons8.com/small/32/000000/purchase-order.png"/> : <img src="https://img.icons8.com/ios-filled/32/000000/bank-card-back-side.png"/>} 
+        
+        
+        {(page < 4) ? "Order" : "Payment"}
+          <IconButton style={{ float: "right" }} color="inherit" onClick={handleCloseI} aria-label="close">
+            <CloseIcon />
+          </IconButton>
+          
+          </DialogTitle>
 
+        {
+          (page < 4) ?
+            (
+              <div className="row-one-modal">
+                <div className="row-one-modal-c">
+                  <h6 style={{ fontSize: "18px", margin: "0" }}>Select the {subt[page - 1]} you would like to order.</h6>
+                </div>
+                <div className="row-one-modal-c">
+                  Filters: &nbsp;&nbsp; &nbsp; Vegetarian:
+                  <Checkbox
+                    color="default"
+                    inputProps={{ 'aria-label': 'checkbox with default color' }}
+                    onChange={handleVeg}
+                  />
+                    &nbsp;&nbsp;&nbsp; Gluten Free:
+                    <Checkbox
+                    color="default"
+                    inputProps={{ 'aria-label': 'checkbox with default color' }}
+                    onChange={handleGf}
+                  />
+                </div>
+
+              </div>
+            ) : <></>}
+        <DialogContent style={{ minWidth: "600px" }}>
           {
 
             (page === 1) ?
               <DialogContentText>
                 {
-                  apps.map(x =>
-                    <OrderItem
-                      name={x.name}
-                      vegetarian={x.vegetarian}
-                      glutenFree={x.glutenFree}
-                      price={x.price}
-                      spice={x.spice}
-                      description={x.description}
-                    />
+                  apps.map(x => {
+
+                    if ((!veg || x.vegetarian === veg) && (!gf || x.glutenFree === gf)) {
+                      return <OrderItem
+                        key={x.name.replace(/\s/g, '')}
+                        name={x.name}
+                        vegetarian={x.vegetarian}
+                        price={x.price}
+                        description={x.description}
+                      />
+                    }
+                  }
                   )
                 }
               </DialogContentText> :
               (page === 2) ?
                 <DialogContentText>
                   {
-                    mainCourse.map(x =>
-                      <OrderItem
-                        name={x.name}
-                        vegetarian={x.vegetarian}
-                        glutenFree={x.glutenFree}
-                        price={x.price}
-                        spice={x.spice}
-                        description={x.description}
-                      />
-                    )
-                  }
-                </DialogContentText> :
-                (page === 3) ?
-                  <DialogContentText>
-                    {
-                      desserts.map(x =>
-                        <OrderItem
+                    mainCourse.map(x => {
+
+                      if ((!veg || x.vegetarian === veg) && (!gf || x.glutenFree === gf)) {
+                        return <OrderItem
+                          key={x.name.replace(/\s/g, '')}
                           name={x.name}
                           vegetarian={x.vegetarian}
                           glutenFree={x.glutenFree}
@@ -91,10 +223,34 @@ function Order() {
                           spice={x.spice}
                           description={x.description}
                         />
-                      )}
+                      }
+                    }
+                    )
+                  }
+                </DialogContentText> :
+                (page === 3) ?
+                  <DialogContentText>
+                    {
+                      desserts.map(x => {
+
+                        if ((!veg || x.vegetarian === veg) && (!gf || x.glutenFree === gf)) {
+                          return <OrderItem
+                            key={x.name.replace(/\s/g, '')}
+                            name={x.name}
+                            vegetarian={x.vegetarian}
+                            glutenFree={x.glutenFree}
+                            price={x.price}
+                            spice={x.spice}
+                            description={x.description}
+                          />
+                        }
+                      })
+                    }
+
                     {
                       drinks.map(x =>
                         <OrderItem
+                          key={x.name.replace(/\s/g, '')}
                           name={x.name}
                           vegetarian={x.vegetarian}
                           glutenFree={x.glutenFree}
@@ -104,8 +260,36 @@ function Order() {
                         />
                       )
                     }
-            </DialogContentText> :
-                  <>Payment</>
+                  </DialogContentText> :
+                  <div>
+                    <div class="container">
+                      <div class="inline">
+                        <InputLabel>Name</InputLabel>
+                        <TextField error={firstE} id="cc" placeholder="John Doe" defaultValue={first} type="quantity" onChange={handleNameChange} helperText="Enter your name"
+                          maxlength="16" />
+                      </ div>
+                      <div class="inline">
+                        <InputLabel>Phone Number</InputLabel>
+                        <TextField error={pnE} id="cc" placeholder="123-123-1234" defaultValue={pn} type="quantity" onChange={handlepnChange} helperText="Enter your phone number"/>
+                      </ div>
+                      <div class="inline">
+                        <InputLabel>Credit Card Number:</InputLabel>
+                        <TextField error={creditNumE} id="cc" placeholder="xxxx xxxx xxxx xxxx" defaultValue={creditNum} onChange={handleCreditChange} type="quantity" helperText="Enter a 16 digit number"
+                          />
+                      </ div>
+                      <div class="inline">
+                        <InputLabel>CVV Number</InputLabel>
+                        <TextField error={cvvE} helperText="Enter the 3-digit CVV Number" id="cvc" defaultValue={cvv} placeholder="123" type="quantity" onChange={handleCvvChange} />
+                      </div>
+
+                      <div class="inline">
+                        <InputLabel>Expiry Date</InputLabel>
+
+                        <Input helperText="Select a valid Date" id="exp" placeholder="MMYY"defaultValue={exp} type="month" maxlength="4" min="2020-06" onChange={handleExpChange} />
+                      </div>
+                    </div>
+
+                  </ div>
           }
         </DialogContent>
         <DialogActions>
@@ -139,7 +323,7 @@ function Order() {
           }
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   );
 }
 
@@ -188,7 +372,7 @@ const apps = [{
 ];
 
 const mainCourse = [{
-  name: "Veggie burger",
+  name: "Veggie Burger",
   vegetarian: true,
   glutenFree: false,
   price: 14.99,
@@ -212,7 +396,7 @@ const mainCourse = [{
   description: "Grilled steak served with corn torilla, red onion, avocado, cilantro, and queso fresco."
 },
 {
-  name: "Jalapeño Mac n’ Cheese",
+  name: "Jalapeno Mac n Cheese",
   vegetarian: true,
   glutenFree: true,
   price: 10.99,
